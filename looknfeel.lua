@@ -7,11 +7,15 @@ hl.config({
 		gaps_out = 8,
 
 		resize_on_border = true,
-		snap = {
-			enabled = true,
-			window_gap = 8,
-			respect_gaps = true,
-		},
+		-- snap = {
+		-- 	enabled = true,
+		-- 	window_gap = 8,
+		-- 	respect_gaps = true,
+		-- },
+	},
+	scrolling = {
+		fullscreen_on_one_column = true,
+		column_width = 0.5,
 	},
 	decoration = {
 		rounding = 8,
@@ -23,7 +27,7 @@ hl.config({
 			vibrancy_darkness = 0.3,
 			contrast = 0.95,
 			brightness = 1.0,
-			noise = 0.0117,
+			noise = 0.02,
 			new_optimizations = true,
 			ignore_opacity = true,
 			xray = false,
@@ -39,9 +43,9 @@ hl.config({
 	},
 })
 
--- hl.config({
---	misc = {
---		force_default_wallpaper = 0, -- Set to 0 or 1 to disable the anime mascot wallpapers
---		disable_hyprland_logo = true, -- If true disables the random hyprland logo / anime girl background. :(
---	},
--- })
+hl.config({
+	misc = {
+		force_default_wallpaper = 0, -- Set to 0 or 1 to disable the anime mascot wallpapers
+		disable_hyprland_logo = true, -- If true disables the random hyprland logo / anime girl background. :(
+	},
+})

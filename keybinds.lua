@@ -64,3 +64,6 @@ hl.bind(
 	hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"),
 	{ locked = true, repeating = true }
 )
+
+-- Exit Hyprland
+hl.bind(mainMod .. "+ SHIFT + ESCAPE", hl.dsp.exit())

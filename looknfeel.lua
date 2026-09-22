@@ -7,17 +7,9 @@ hl.config({
 		gaps_out = 8,
 
 		resize_on_border = true,
-		-- snap = {
-		-- 	enabled = true,
-		-- 	window_gap = 8,
-		-- 	respect_gaps = true,
-		-- },
-	},
-	scrolling = {
-		fullscreen_on_one_column = true,
-		column_width = 0.5,
 	},
 	decoration = {
+		rounding_power = 20,
 		rounding = 8,
 		blur = {
 			enabled = true,
@@ -33,6 +25,10 @@ hl.config({
 			xray = false,
 			popups = true,
 		},
+		motion_blur = {
+			enabled = false,
+			samples = 8,
+		},
 		active_opacity = 1.0,
 		inactive_opacity = 0.90,
 		dim_inactive = true,
@@ -40,6 +36,10 @@ hl.config({
 
 		-- Spotlight your scratchpad when you open it
 		-- dim_special = 0.25,
+	},
+	animations = {
+		enabled = true,
+		workspace_wraparound = true,
 	},
 })
 

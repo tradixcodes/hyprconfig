@@ -8,6 +8,9 @@ hl.config({
 
 		resize_on_border = true,
 	},
+	scrolling = {
+		direction = "right",
+	},
 	decoration = {
 		rounding_power = 20,
 		rounding = 8,

@@ -1,23 +1,20 @@
--- used to float the active window before moving it into another workspace
-local function float_moving_window()
-	local w = hl.get_active_window()
-	if not w then
-		return
-	end
-
-	-- Float it
-	hl.dispatch(hl.dsp.window.float({
-		action = "set",
-		window = w,
-	}))
-end
-
 local function log(msg)
 	local f = io.open("/tmp/hypr-debug.log", "a")
 	if f then
 		f:write(os.date("%H:%M:%S") .. " " .. msg .. "\n")
 		f:close()
 	end
+end
+
+local window_ws_cache = {}
+
+local function remember_workspace(w)
+	if not w or not w.address then
+		return nil
+	end
+	local old_ws_id = window_ws_cache[w.address]
+	window_ws_cache[w.address] = w.workspace and w.workspace.id or nil
+	return old_ws_id
 end
 
 local function sync_workspace(ws_id)
@@ -66,11 +63,13 @@ hl.on("window.open", function(w)
 	end
 
 	-- Set initial floating state once, at open time
-	-- hl.dispatch(hl.dsp.window.float({
-	-- 	action = "enable",
-	-- 	window = w,
-	-- }))
-	-- hl.dispatch(hl.dsp.window.center({ window = w }))
+	hl.dispatch(hl.dsp.window.float({
+		action = "enable",
+		window = w,
+	}))
+	hl.dispatch(hl.dsp.window.center({ window = w }))
+
+	remember_workspace(w)
 
 	if w and w.workspace then
 		sync_workspace(w.workspace.id)
@@ -78,15 +77,32 @@ hl.on("window.open", function(w)
 end)
 
 hl.on("window.close", function(w)
-	if w and w.workspace then
+	if not w then
+		return
+	end
+
+	local old_ws_id = w.address and window_ws_cache[w.address]
+	if w.address then
+		window_ws_cache[w.address] = nil
+	end
+	if old_ws_id then
+		sync_workspace(old_ws_id)
+	elseif w.workspace then
 		sync_workspace(w.workspace.id)
 	end
 end)
 
 hl.on("window.move_to_workspace", function(w)
-	if w and w.workspace then
-		float_moving_window()
-		sync_workspace(w.workspace.id)
+	if not w or not w.workspace then
+		return
+	end
+
+	local old_ws_id = remember_workspace(w)
+	local new_ws_id = w.workspace.id
+
+	sync_workspace(new_ws_id)
+	if old_ws_id and old_ws_id ~= new_ws_id then
+		sync_workspace(old_ws_id)
 	end
 end)
 
